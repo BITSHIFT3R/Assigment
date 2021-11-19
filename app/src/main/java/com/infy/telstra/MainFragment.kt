@@ -61,14 +61,7 @@ class MainFragment : Fragment() {
     }
 
     private fun loadData() {
-        /*factViewModel.getAllFacts?.observe(viewLifecycleOwner, object :
-            Observer<List<FactItem?>?> {
 
-
-            override fun onChanged(t: List<FactItem?>?) {
-                Log.d("main", "onChanged: $t")
-            }
-        })*/
 
         factViewModel.getAllFacts?.observe(requireActivity(), {
             if (it != null) {
@@ -78,6 +71,8 @@ class MainFragment : Fragment() {
                     binding.rvFacts.apply {
                         adapter = FactAdapter(factList)
                     }
+                    getActivity()!!.setTitle(factViewModel.title);
+
                 }
             } else {
                 binding.swipe.isRefreshing = false

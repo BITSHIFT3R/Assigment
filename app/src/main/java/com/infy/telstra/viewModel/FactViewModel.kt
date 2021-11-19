@@ -20,6 +20,7 @@ import kotlinx.coroutines.launch
 
 class FactViewModel : ViewModel() {
     var factList = MutableLiveData<FactResponse>()
+    var title : String = ""
     var factRepository = FactRepository()
     var getAllFacts= factRepository.getData()
 
@@ -37,6 +38,7 @@ class FactViewModel : ViewModel() {
             override fun onNext(factResponse: FactResponse){
                 factRepository.deleteData()
                    factList.value = factResponse
+                title = factResponse.title
                   factList.value!!.rows.forEach { e -> factRepository.insertData(e) }
             }
 
