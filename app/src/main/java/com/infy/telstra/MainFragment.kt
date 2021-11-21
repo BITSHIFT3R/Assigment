@@ -1,7 +1,6 @@
 package com.infy.telstra
 
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,7 +57,7 @@ class MainFragment : Fragment() {
                     binding.rvFacts.apply {
                         adapter = FactAdapter(factList)
                     }
-                    activity!!.title = factViewModel.title
+                    activity?.title = factViewModel.title
                 }
             } else {
                 binding.swipe.isRefreshing = false
@@ -71,7 +70,7 @@ class MainFragment : Fragment() {
         if (checkInternet(requireContext())) {
             factViewModel.loadData()
         } else {
-            binding.swipe.post(Runnable {  binding.swipe.setRefreshing(false) })
+            binding.swipe.post { binding.swipe.isRefreshing = false }
             Toast.makeText(activity, getString(R.string.no_internet), Toast.LENGTH_LONG).show()
             factViewModel.getAllFacts()
         }
