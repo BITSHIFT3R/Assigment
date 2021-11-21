@@ -8,7 +8,7 @@ import java.util.concurrent.TimeoutException
 
 fun <T> LiveData<T>.getOrAwaitValue() : T{
     var data : T? = null
-    var latch = CountDownLatch(1)
+    val latch = CountDownLatch(1)
     val observer = object :Observer<T>{
         override fun onChanged(t: T) {
             data = t

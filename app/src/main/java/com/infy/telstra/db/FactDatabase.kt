@@ -8,14 +8,12 @@ import com.infy.telstra.model.FactItem
 
 @Database(entities = [FactItem::class], version = 1, exportSchema = false)
 abstract class FactDatabase : RoomDatabase() {
-
     abstract fun factDao(): FactDAO
 }
 
 private lateinit var INSTANCE: FactDatabase
 
 fun getDatabase(context: Context): FactDatabase {
-
     synchronized(FactDatabase::class.java) {
         if (!::INSTANCE.isInitialized) {
             INSTANCE = Room.databaseBuilder(
@@ -25,6 +23,5 @@ fun getDatabase(context: Context): FactDatabase {
             ).build()
         }
     }
-
     return INSTANCE
 }

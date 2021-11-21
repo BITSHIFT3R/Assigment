@@ -4,9 +4,9 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
-import com.infy.telstra.MainFragment
 
 
+const val URL = "https://dl.dropboxusercontent.com/s/2iodh4vg0eortkl/"
 fun checkInternet(context: Context): Boolean {
 
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager

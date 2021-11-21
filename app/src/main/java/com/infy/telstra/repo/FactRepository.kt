@@ -13,29 +13,28 @@ import kotlinx.coroutines.launch
 
 class FactRepository {
 
-    var list : LiveData<List<FactItem>> = getDatabase(AppController.applicationContext()).factDao().getAllDataSet()
+    private var list : LiveData<List<FactItem>> = getDatabase(AppController.applicationContext()).factDao().getAllDataSet()
     fun getFactsInfo() : Observable<FactResponse>{
         return ApiClient.getClient()!!.create(APIInterface::class.java).getFacts()
     }
 
+    //Insert fact data in table
+    fun insertData(models: List<FactItem>){
+        GlobalScope.launch {
+            getDatabase(AppController.applicationContext()).factDao().deleteAndInsert(models)
+        }
+    }
 
     //Insert fact data in table
-    fun insertData(model: FactItem){
+    fun insertDataSingle(model:FactItem){
         GlobalScope.launch {
             getDatabase(AppController.applicationContext()).factDao().insertItems(model)
         }
     }
 
-
     //Fetch all the data from table
-    fun getData() : LiveData<List<FactItem>>? {
+    fun getData() : LiveData<List<FactItem>> {
         return list
     }
 
-    //Fetch all the data from table
-    fun deleteData()  {
-        GlobalScope.launch { ///clearing data on reload
-            getDatabase(AppController.applicationContext()).factDao().deleteAllItems()
-        }
-    }
 }

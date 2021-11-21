@@ -1,17 +1,8 @@
 package com.infy.telstra.viewModel
 
-import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.room.Room
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.infy.telstra.db.FactDatabase
 import com.infy.telstra.model.FactItem
-import com.infy.telstra.repo.FactRepository
-import junit.framework.TestCase
-import org.junit.Assert.*
-
-import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -28,14 +19,13 @@ class FactViewModelTest {
     @Before
      fun setUp() {
         factViewModel= FactViewModel()
-
     }
 
     @Test
     fun testFactViewModel(){
-        factViewModel.factRepository.insertData(FactItem("Title","Description","Image"))
+        factViewModel.factRepository.insertDataSingle(FactItem("Title","Description","Image"))
         factViewModel.getAllFacts()
-       val result =   factViewModel.getAllFacts!!.getOrAwaitValue().find {
+       val result =   factViewModel.getAllFacts.getOrAwaitValue().find {
             it.title.equals("Title")
         }
         assert(result!=null)
