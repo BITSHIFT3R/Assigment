@@ -24,6 +24,10 @@ class MainFragment : Fragment() {
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -31,22 +35,21 @@ class MainFragment : Fragment() {
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.activity_main_frag, container, false)
         factViewModel = ViewModelProvider(requireActivity()).get(FactViewModel::class.java)
+        callAPI()
         initRecyclerView()
         return binding.root
     }
 
+
+
     private fun initRecyclerView() {
-        refreshRecords()
         binding.swipe.setOnRefreshListener {
-            refreshRecords()
+            callAPI()
         }
         loadData()
     }
 
-    private fun refreshRecords() {
-        callAPI()
-        binding.swipe.isRefreshing = true
-    }
+
 
     private fun loadData() {
         factViewModel.getAllFacts.observe(requireActivity(), {
@@ -67,8 +70,10 @@ class MainFragment : Fragment() {
     }
 
     private fun callAPI() {
+        binding.swipe.isRefreshing = true
         if (checkInternet(requireContext())) {
-            factViewModel.loadData()
+            if(factViewModel.factRepository.getData().value==null)
+                factViewModel.loadData()
         } else {
             binding.swipe.post { binding.swipe.isRefreshing = false }
             Toast.makeText(activity, getString(R.string.no_internet), Toast.LENGTH_LONG).show()
